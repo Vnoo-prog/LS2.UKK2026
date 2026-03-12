@@ -10,7 +10,6 @@ class DashboardController extends Controller
 {
     public function index() {
         $bukus = Buku::with('ulasans.user')->get();
-        // Mengambil daftar petugas untuk ditampilkan khusus bagi admin
         $daftar_petugas = User::where('role', 'petugas')->get(); 
         
         return view('dashboard', compact('bukus', 'daftar_petugas'));
