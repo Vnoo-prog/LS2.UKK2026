@@ -1,0 +1,2 @@
+# LS2.UKK2026
+Latihan Soal UKK 2026.2
