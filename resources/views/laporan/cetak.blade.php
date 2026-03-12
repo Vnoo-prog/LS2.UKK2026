@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cetak Laporan Peminjaman</title>
     <style>
-        /* Gaya standar yang rapi untuk dicetak di kertas A4 */
         body { 
             font-family: 'Times New Roman', Times, serif; 
             font-size: 14px; 
@@ -46,8 +45,6 @@
         .text-center { 
             text-align: center; 
         }
-        
-        /* CSS Khusus agar tombol tidak ikut tercetak di kertas */
         @media print {
             .no-print { display: none !important; }
             body { padding: 0; }
