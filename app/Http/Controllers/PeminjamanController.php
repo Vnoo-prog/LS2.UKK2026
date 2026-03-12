@@ -9,13 +9,10 @@ use Carbon\Carbon;
 
 class PeminjamanController extends Controller
 {
-    // UNTUK PEMINJAM: Melihat riwayatnya sendiri
     public function index() {
         $peminjamans = Peminjaman::with('buku')->where('user_id', Auth::id())->latest()->get();
         return view('peminjaman.index', compact('peminjamans'));
     }
-
-    // AKSI MEMINJAM (Stok berkurang)
     public function store(Request $request, $buku_id) {
         $buku = Buku::findOrFail($buku_id);
 
@@ -35,7 +32,7 @@ class PeminjamanController extends Controller
             'status_peminjaman' => 'Dipinjam'
         ]);
 
-        $buku->decrement('stok'); // Kurangi stok 1
+        $buku->decrement('stok'); 
         return back()->with('success', 'Buku dipinjam! Tenggat: 1 minggu.');
     }
 
@@ -70,19 +67,17 @@ class PeminjamanController extends Controller
         }
 
         $peminjaman->update(['status_peminjaman' => 'Dikembalikan']);
-        $peminjaman->buku->increment('stok'); // Tambah stok 1
+        $peminjaman->buku->increment('stok'); 
 
         return back()->with('success', 'Buku diterima!' . $pesan_denda);
     }
 
-    // PETUGAS TOLAK PENGEMBALIAN
     public function tolakPengembalian($id) {
         $peminjaman = Peminjaman::findOrFail($id);
-        $peminjaman->update(['status_peminjaman' => 'Dipinjam']); // Kembalikan statusnya
+        $peminjaman->update(['status_peminjaman' => 'Dipinjam']);
         return back()->with('error', 'Pengembalian ditolak! (Buku fisik belum diserahkan/rusak).');
     }
 
-    // CETAK PDF (Sesuai Filter)
     public function cetakLaporan(Request $request) {
         $query = Peminjaman::with(['buku', 'user']);
         if ($request->tgl_awal && $request->tgl_akhir) {
